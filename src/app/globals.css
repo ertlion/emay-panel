@@ -50,8 +50,10 @@ nextjs-portal {
 }
 
 /* "Iletisim Formu" modal trigger butonunu header'dan kaldir.
- * Bu kirmizi buton uzun cevirilerde (RU/AR) yer kapliyordu. "Bize Ulasin"
- * CTA'si zaten ayni iletisim modal'ina yonlendirebilir. */
+ * Bu kirmizi buton uzun cevirilerde (RU/AR) yer kapliyordu.
+ * Elementor widget type: 'elementskit-popup-modal.default'. */
+#site-header [data-widget_type^="elementskit-popup-modal"],
+#site-header .elementor-widget-elementskit-popup-modal,
 #site-header .elementor-widget-elementskit-popup,
 #site-header .ekit-popup-btn__has-icon {
   display: none !important;
