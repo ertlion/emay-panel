@@ -12,6 +12,9 @@ const credSchema = z.object({
 });
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  // Coolify sslip.io / custom domain ile NEXTAUTH_URL eslesmedi durumunda
+  // Auth.js host check'i UntrustedHost atiyor. Production icin acik.
+  trustHost: true,
   pages: {
     signIn: "/admin/login",
   },

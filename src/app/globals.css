@@ -49,12 +49,11 @@ nextjs-portal {
   white-space: nowrap !important;
 }
 
-/* "Iletisim Formu" modal trigger butonunu header'dan kaldir.
- * Bu kirmizi buton uzun cevirilerde (RU/AR) yer kapliyordu.
- * Elementor widget type: 'elementskit-popup-modal.default'. */
-#site-header [data-widget_type^="elementskit-popup-modal"],
-#site-header .elementor-widget-elementskit-popup-modal,
-#site-header .elementor-widget-elementskit-popup,
-#site-header .ekit-popup-btn__has-icon {
+/* Header'da SADECE "Iletisim Formu" (kirmizi modal trigger) kalsin.
+ * "Bize Ulasin" CTA butonu (gri elementskit-button) kaldirildi - uzun cevirilerde
+ * (RU/AR) iki satira tasiyordu, kullanicinin tercihi yedek olarak kalan
+ * Iletisim Formu butonu uzerinden modal acilmasi. */
+#site-header [data-widget_type^="elementskit-button"],
+#site-header .elementor-widget-elementskit-button {
   display: none !important;
 }

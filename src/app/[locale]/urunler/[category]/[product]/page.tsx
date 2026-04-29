@@ -69,7 +69,9 @@ export default async function ProductPage({ params }: PageProps) {
   const redirectTarget = SUBCATEGORY_REDIRECTS[product];
   if (redirectTarget) {
     const prefix = PRODUCTS_PREFIX_BY_LOCALE[locale] ?? "urunler";
-    redirect(`/${locale}/${prefix}/${redirectTarget}`);
+    // AR locale prefix'i ('المنتجات') HTTP Location header'da non-ASCII karakter
+    // hatasi veriyor. encodeURI ile percent-encode et.
+    redirect(encodeURI(`/${locale}/${prefix}/${redirectTarget}`));
   }
 
   const entry = productPages[product];
