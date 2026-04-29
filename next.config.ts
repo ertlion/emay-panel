@@ -5,10 +5,8 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  // Coolify/Docker icin: minimal node_modules ile bagimsiz calistirilabilir
-  // standalone output. .next/standalone altinda server.js + sadece kullanilan
-  // bagimliliklar.
-  output: "standalone",
+  // Standalone yerine basit prod build (Prisma path issue'lari icin daha guvenilir).
+  // output: "standalone",
   // Next.js 16'nin strict typedRoutes'u admin route'larini [locale] altinda
   // bekliyor; admin ayri kok route oldugu icin devre disi.
   typedRoutes: false,
