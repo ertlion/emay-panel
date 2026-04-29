@@ -3,7 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { I18nField, extractI18n } from "@/app/admin/_components/I18nField";
+import { I18nField } from "@/app/admin/_components/I18nField";
+import { I18nForm } from "@/app/admin/_components/I18nForm";
+import { extractI18n } from "@/app/admin/_lib/i18n-form";
 
 export const dynamic = "force-dynamic";
 
@@ -143,10 +145,12 @@ export default async function NewProductPage() {
             </div>
           </div>
         </div>
+        <I18nForm className="space-y-4">
 
         <I18nField name="title" label="Başlık" required />
         <I18nField name="shortDesc" label="Kısa Açıklama (HTML)" type="textarea" rows={4} />
         <I18nField name="longDesc" label="Uzun Açıklama (HTML)" type="textarea" rows={10} />
+        </I18nForm>
 
         <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
           <button

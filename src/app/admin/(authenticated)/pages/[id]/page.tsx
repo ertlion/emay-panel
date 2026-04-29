@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { I18nField, extractI18n } from "@/app/admin/_components/I18nField";
+import { I18nField } from "@/app/admin/_components/I18nField";
+import { I18nForm } from "@/app/admin/_components/I18nForm";
+import { extractI18n } from "@/app/admin/_lib/i18n-form";
 import { syncStaticPageTranslations } from "@/lib/sync-translations";
 import { updateTag } from "next/cache";
 
@@ -134,6 +136,7 @@ export default async function StaticPageEdit({
             </div>
           </div>
         </div>
+        <I18nForm className="space-y-4">
 
         <I18nField name="title" label="Başlık" values={title} required />
         <I18nField
@@ -152,6 +155,7 @@ export default async function StaticPageEdit({
           values={metaDescription}
           hint="Google sonuç sayfasında 150-160 karakterlik özet."
         />
+        </I18nForm>
 
         <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
           <button

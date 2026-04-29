@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { I18nField, extractI18n } from "@/app/admin/_components/I18nField";
+import { I18nField } from "@/app/admin/_components/I18nField";
+import { I18nForm } from "@/app/admin/_components/I18nForm";
+import { extractI18n } from "@/app/admin/_lib/i18n-form";
 import { syncProductTranslations } from "@/lib/sync-translations";
 import { updateTag } from "next/cache";
 
@@ -184,31 +186,31 @@ export default async function ProductEditPage({
           </div>
         </div>
 
-        <I18nField
-          name="title"
-          label="Başlık"
-          values={title}
-          required
-          hint="Ürün adı, 4 dilde. Örn: Emay Smart 3H DV"
-        />
-
-        <I18nField
-          name="shortDesc"
-          label="Kısa Açıklama (HTML)"
-          type="textarea"
-          rows={4}
-          values={shortDesc}
-          hint="Ürün başlığı altında görünür. HTML kabul eder."
-        />
-
-        <I18nField
-          name="longDesc"
-          label="Uzun Açıklama (HTML)"
-          type="textarea"
-          rows={10}
-          values={longDesc}
-          hint="Açıklama tabında görünür. Tablo, görsel, formatted text destekler."
-        />
+        <I18nForm className="space-y-4">
+          <I18nField
+            name="title"
+            label="Başlık"
+            values={title}
+            required
+            hint="Ürün adı. Örn: Emay Smart 3H DV"
+          />
+          <I18nField
+            name="shortDesc"
+            label="Kısa Açıklama (HTML)"
+            type="textarea"
+            rows={4}
+            values={shortDesc}
+            hint="Ürün başlığı altında görünür. HTML kabul eder."
+          />
+          <I18nField
+            name="longDesc"
+            label="Uzun Açıklama (HTML)"
+            type="textarea"
+            rows={10}
+            values={longDesc}
+            hint="Açıklama tabında görünür. Tablo, görsel, formatted text destekler."
+          />
+        </I18nForm>
 
         {product.images.length > 0 && (
           <div className="rounded-lg border border-neutral-200 bg-white p-4">
