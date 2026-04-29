@@ -1,0 +1,168 @@
+// Emay Panel admin DB schema.
+// Coolify-hosted PostgreSQL'e deploy edilir.
+// 4 dilli icerik (TR/EN/RU/AR) - cevri alanlar Json {tr,en,ru,ar} formatinda.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -------------------------------------------------------------------
+// Auth - admin paneline erisecek kullanicilar
+// -------------------------------------------------------------------
+model AdminUser {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  name          String?
+  role          String   @default("admin") // "admin" | "editor"
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+// -------------------------------------------------------------------
+// Kategoriler - WooCommerce taxonomy benzeri
+// -------------------------------------------------------------------
+model Category {
+  id          String   @id @default(cuid())
+  slug        String   @unique // "cati-panelleri"
+  termId      Int      @unique // WordPress term ID (mirror legacy)
+  pageId      Int?     // Elementor page ID (varsa)
+
+  // 4 dilde aciklamalar - {tr, en, ru, ar}
+  title       Json     // {tr: "Çatı Panelleri", en: "Roof Panels", ...}
+  description Json?    // SEO description
+  bodyHtml    Json?    // Hero/banner HTML icerigi (her dil)
+
+  heroImage   String?  // /uploads/path
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+
+  products    Product[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("categories")
+}
+
+// -------------------------------------------------------------------
+// Urunler
+// -------------------------------------------------------------------
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  postId      Int      @unique // WP post ID
+
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  String
+
+  // 4 dilde
+  title       Json     // {tr, en, ru, ar}
+  shortDesc   Json?    // HTML icerik 4 dilde
+  longDesc    Json?    // HTML icerik 4 dilde
+
+  // Yapilandirilmis veri (her urunde dilden bagimsiz)
+  specs       Json?    // teknik tablo (yalitim kalinliklari, vb)
+  loadTable   Json?    // yuk tasima tablosu
+
+  images      ProductImage[]
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  featured    Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
+
+// Urun gorseli - galeri
+model ProductImage {
+  id        String   @id @default(cuid())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  url       String   // /uploads/...
+  alt       Json?    // {tr, en, ru, ar}
+  order     Int      @default(0)
+  isPrimary Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@map("product_images")
+}
+
+// -------------------------------------------------------------------
+// Statik sayfalar (hakkimizda, iletisim, kvkk vb)
+// -------------------------------------------------------------------
+model StaticPage {
+  id          String   @id @default(cuid())
+  slug        String   @unique // "hakkimizda"
+  pageId      Int?     @unique // Elementor page ID
+
+  title       Json     // 4 dilde
+  contentHtml Json     // 4 dilde HTML icerik
+  metaDescription Json? // SEO
+
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  showInFooter Boolean @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("static_pages")
+}
+
+// -------------------------------------------------------------------
+// I18n - cevirilebilir UI metinleri (header, footer, butonlar)
+// -------------------------------------------------------------------
+model TranslationKey {
+  id        String   @id @default(cuid())
+  key       String   @unique // "header.nav.products"
+  values    Json     // {tr: "Ürünler", en: "Products", ru: "Продукция", ar: "المنتجات"}
+  group     String?  // "header", "footer", "common", "contactModal" (UI'da gruplama)
+  notes     String?  // Editor icin aciklama
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("translation_keys")
+}
+
+// -------------------------------------------------------------------
+// Medya kutuphanesi
+// -------------------------------------------------------------------
+model MediaAsset {
+  id        String   @id @default(cuid())
+  path      String   @unique // /uploads/2026/04/foo.jpg
+  filename  String
+  mimeType  String
+  width     Int?
+  height    Int?
+  fileSize  Int?     // bytes
+  alt       Json?    // {tr, en, ru, ar}
+
+  uploadedAt DateTime @default(now())
+
+  @@map("media_assets")
+}
+
+// -------------------------------------------------------------------
+// Site ayarlari (genel - logo, contact bilgileri, social links)
+// -------------------------------------------------------------------
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique // "contact.phone", "contact.email", "social.facebook", "logo.dark"
+  value Json   // string veya complex (mesela {tr: ..., en: ...})
+
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}

@@ -1,0 +1,43 @@
+/*
+ * Emay Panel - Legacy-portu stratejisi.
+ *
+ * Bu proje emaypanel.com'un HTML/CSS'ini birebir port ediyor.
+ * Legacy Elementor/Karbon CSS'leri layout.tsx icinde <link> ile yukleniyor.
+ *
+ * Tailwind'in PREFLIGHT (base) katmani Elementor'un varsayilanlarini ezdigi
+ * icin burada SADECE theme + utilities import ediyoruz - base'i atliyoruz.
+ * LanguageSwitcher gibi kendi component'lerimiz utility class'lari hala
+ * kullanabilir (flex, fixed, text-sm, border vs.).
+ */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/*
+ * LanguageSwitcher ve diger kendi component'lerimiz icin ortak degiskenler.
+ * (Legacy CSS'te bulunmayan emay-* tokenlari.)
+ */
+:root {
+  --color-primary: #13392b;
+  --color-primary-dark: #0c2a20;
+  --color-accent: #0df29e;
+  --color-emay-light: #f0f0f0;
+  --color-emay-border: #e2e6f0;
+  --color-emay-border-soft: #e2e2e8;
+}
+
+/* LanguageSwitcher bar konumu (RTL/LTR) */
+.lang-bar {
+  left: 0;
+}
+
+[dir="rtl"] .lang-bar {
+  left: auto;
+  right: 0;
+}
+
+/* Next.js dev mode portali (yesil indicator buttonlari, hata overlay vb.)
+ * `devIndicators: false` config'i tum portali kapatmiyor - CSS ile zorla gizle.
+ * Production build'de zaten yok, sadece dev'i etkiler. */
+nextjs-portal {
+  display: none !important;
+}

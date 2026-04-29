@@ -1,0 +1,14 @@
+div.ekit-wid-con .elementskit-accordion .elementskit-card-header>.elementskit-btn-link,
+.page-header .entry-subtitle,
+h1 + .ekit-heading__description p,
+h2 + .ekit-heading__description p {
+    font-size: calc(var(--font-size-paragraphs) + 1px);
+}
+
+div.ekit-wid-con .elementskit-single-pricing .elementskit-pricing-btn, div.ekit-wid-con .elementskit-btn {
+    padding: 17px 15px;
+}
+
+div.ekit-wid-con .ekit_image_hover .ekit_image_caption:before {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+}
