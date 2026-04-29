@@ -41,3 +41,11 @@
 nextjs-portal {
   display: none !important;
 }
+
+/* Header CTA butonlari uzun ceviri metinlerinde (RU "Свяжитесь с нами",
+ * AR uzun cumleler) iki satira kayiyordu - tek satirda tut. */
+#site-header .elementskit-btn,
+#site-header a.elementskit-btn,
+#site-header .ekit-popup-btn__has-icon {
+  white-space: nowrap;
+}
