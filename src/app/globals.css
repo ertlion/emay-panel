@@ -42,6 +42,28 @@ nextjs-portal {
   display: none !important;
 }
 
+/* Hero video: responsive + mobile'da gorunur + tam alan kaplama. */
+.elementor-hidden-mobile {
+  display: block !important;
+}
+.elementor-background-video-container {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  z-index: 0 !important;
+  pointer-events: none;
+}
+.elementor-background-video-container video,
+.elementor-background-video-embed video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
 /* Header CTA butonlari uzun ceviri metinlerinde tek satirda tut. */
 #site-header .elementskit-btn,
 #site-header a.elementskit-btn,
