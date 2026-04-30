@@ -42,26 +42,70 @@ nextjs-portal {
   display: none !important;
 }
 
-/* Hero video: responsive + mobile'da gorunur + tam alan kaplama. */
-.elementor-hidden-mobile {
+/* Hero video: responsive + mobile'da gorunur + tam alan kaplama.
+ * Mirror'in `elementor-hidden-mobile` ve `display: none @media max-768px`
+ * kurallarini override etmek icin yuksek specificity + !important. */
+.elementor-hidden-mobile,
+html body .elementor-hidden-mobile {
   display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
-.elementor-background-video-container {
+
+/* Hero section parent container'lari position: relative yap ki video absolute
+ * pozisyonu dogru hesaplansin. */
+.e-con.e-parent[data-id="c59b72b"],
+.elementor-element[data-settings*="background_video_link"] {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.elementor-background-video-container,
+html body .elementor-background-video-container {
   position: absolute !important;
   inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
   width: 100% !important;
   height: 100% !important;
   overflow: hidden !important;
   z-index: 0 !important;
   pointer-events: none;
+  display: block !important;
 }
-.elementor-background-video-container video,
-.elementor-background-video-embed video {
+
+.elementor-background-video-embed {
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
+}
+
+.elementor-background-video-container video,
+.elementor-background-video-embed video,
+html body .elementor-background-video-embed video {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
   display: block !important;
+}
+
+/* Hero icerigi (yazilar, butonlar) videonun UZERINDE olsun. */
+.e-con.e-parent[data-id="c59b72b"] > .e-con-inner {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Mobile - hero min-height ki video alan bulsun */
+@media (max-width: 768px) {
+  .e-con.e-parent[data-id="c59b72b"] {
+    min-height: 80vh !important;
+  }
 }
 
 /* Header CTA butonlari uzun ceviri metinlerinde tek satirda tut. */
